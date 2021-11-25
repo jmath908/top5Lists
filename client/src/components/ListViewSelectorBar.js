@@ -8,13 +8,21 @@ import EditToolbar from './EditToolbar'
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
+import PeopleOutlineIcon from '@mui/icons-material/PeopleOutline';
+import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
+import FunctionsOutlinedIcon from '@mui/icons-material/FunctionsOutlined';
+import TextField from '@mui/material/TextField'
+import SortIcon from '@mui/icons-material/Sort';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
-export default function AppBanner() {
+
+export default function ListViewSelectorBar() {
     const { auth } = useContext(AuthContext);
     const { store } = useContext(GlobalStoreContext);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -33,6 +41,7 @@ export default function AppBanner() {
         auth.logoutUser();
     }
 
+      
     const menuId = 'primary-search-account-menu';
     const loggedOutMenu = (
         <Menu
@@ -93,36 +102,33 @@ export default function AppBanner() {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
+            <Grid
+                // container
+                // spacing={0}
+                // direction="column"
+                // alignItems="center"
+                // justifyContent="center"
+                // style={{ minHeight: '100vh' }}
+            >
             <AppBar position="static">
-                <Toolbar>
-                    <Typography                        
-                        variant="h4"
-                        noWrap
-                        component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' } }}                        
-                    >
-                        <Link style={{ textDecoration: 'none', color: 'white' }} to='/'>T<sup>5</sup>L</Link>
-                    </Typography>
-                    <Box sx={{ flexGrow: 1 }}><Typography><em>The Top 5 Lister</em></Typography></Box>
-                    
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            { getAccountMenu(auth.loggedIn) }
-                        </IconButton>
-                    </Box>
-                </Toolbar>
+                    <div id = "list-selector-toolbar">
+                    <Toolbar>
+                            <HomeOutlinedIcon fontSize = "large"/>
+                            <PeopleOutlineIcon fontSize = "large"/>
+                            <PersonOutlinedIcon fontSize = "large"/>
+                            <FunctionsOutlinedIcon fontSize = "large"/>
+                            <TextField  sx={{ m: 1, width: '50ch' }} label="Search" variant="filled"/>
+                            <div id = "list-selector-sortby">
+                                <Typography fontSize = "20px">Sort By</Typography>
+                            </div>
+                            <SortIcon fontSize = "large"></SortIcon>
+                    </Toolbar>
+                    </div>
             </AppBar>
             {
                 menu
             }
+            </Grid>
         </Box>
     );
 }

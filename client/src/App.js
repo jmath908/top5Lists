@@ -2,9 +2,12 @@ import './App.css';
 import { React } from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { AuthContextProvider } from './auth';
-import { GlobalStoreContextProvider } from './store'
+import { GlobalStoreContextProvider } from './store';
+import createMuiTheme from '@mui/core';
+import ThemeProvider from '@mui/core';
 import {
     AppBanner,
+    // ListViewSelectorBar,
     HomeWrapper,
     LoginScreen,
     RegisterScreen,
@@ -28,6 +31,7 @@ const App = () => {
             <AuthContextProvider>
                 <GlobalStoreContextProvider>              
                     <AppBanner />
+                    {/* <ListViewSelectorBar /> */}
                     <Switch>
                         <Route path="/" exact component={HomeWrapper} />
                         <Route path="/login/" exact component={LoginScreen} />
