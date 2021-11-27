@@ -22,13 +22,19 @@ const HomeScreen = () => {
     useEffect(() => {
         store.loadIdNamePairs();
     }, []);
-    
+    const commonStyles = {
+        bgcolor: 'background.paper',
+        borderColor: 'text.primary',
+        m: 1,
+        border: 1,
+      };
     function handleCreateNewList() {
         store.createNewList();
     }
     let listCard = "";
     if (store) {
         listCard = 
+        <Box sx={{ ...commonStyles, borderRadius: 4 }} >
             <List sx={{ width: '90%', left: '5%', bgcolor: 'background.paper' }}>
             {
                 store.idNamePairs.map((pair) => (
@@ -39,7 +45,8 @@ const HomeScreen = () => {
                     />
                 ))
             }
-            </List>;
+            </List>
+        </Box>
     }
     return (
         <div>

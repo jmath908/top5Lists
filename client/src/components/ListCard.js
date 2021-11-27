@@ -6,7 +6,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import ListItem from '@mui/material/ListItem';
 import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
+import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import { borders } from '@mui/system';
 
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 /*
     This is a card in our list of top 5 lists. It lets select
     a list for editing and it has controls for changing its 
@@ -64,7 +70,15 @@ function ListCard(props) {
     function handleUpdateText(event) {
         setText(event.target.value);
     }
-
+    const commonStyles = {
+        bgcolor: 'background.paper',
+        borderColor: 'text.primary',
+        m: 1,
+        border: 1,
+        width: '5rem',
+        height: '5rem',
+      };
+      
     let selectClass = "unselected-list-card";
     if (selected) {
         selectClass = "selected-list-card";
@@ -74,35 +88,78 @@ function ListCard(props) {
         cardStatus = true;
     }
     let cardElement =
-        <ListItem
-            id={idNamePair._id}
-            key={idNamePair._id}
-            sx={{ marginTop: '15px', display: 'flex', p: 1 }}
-            style={{ width: '100%' }}
-            button
-            onClick={(event) => {
-                handleLoadList(event, idNamePair._id)
-            }
-            }
-            style={{
-                fontSize: '48pt'
-            }}
-        >
-                <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
-                <Box sx={{ p: 1 }}>
-                    <IconButton onClick={handleToggleEdit} aria-label='edit'>
-                        <EditIcon style={{fontSize:'48pt'}} />
-                    </IconButton>
-                </Box>
-                <Box sx={{ p: 1 }}>
-                    <IconButton onClick={(event) => {
-                        handleDeleteList(event, idNamePair._id)
-                    }} aria-label='delete'>
-                        <DeleteIcon style={{fontSize:'48pt'}} />
-                    </IconButton>
-                </Box>
-        </ListItem>
-
+    <div id = "list-card-nonediting">
+            <Box sx={{borderRadius: 0, display: 'flex'}}>
+                <Grid container spacing={0.5} 
+                    id={idNamePair._id}
+                    key={idNamePair._id}
+                    sx={{ marginTop: '0px', display: 'flex', p: 0 }}
+                    style={{ width: '100%' }}
+                    button
+                    >
+                    <Grid item xs={6} sx={{fontSize: '20px'}}>
+                        <Box><div id="list-name">{idNamePair.name}</div></Box>
+                    </Grid>
+                    <Grid item xs={2} sx={{fontSize: '20px', left: "5px"}}>
+                        <div style={{background:"white"}}><ThumbUpOutlinedIcon/> 127k </div>
+                    </Grid>
+                    <Grid item xs={2} sx={{fontSize: '20px'}}>
+                        <div style={{background:"white"}}><ThumbDownOutlinedIcon/> 33 </div>
+                    </Grid> 
+                    <Grid item xs={2}>
+                        <div style={{background:"white"}}>
+                             <DeleteOutlinedIcon></DeleteOutlinedIcon> 
+                             </div>
+                    </Grid>
+                    <Grid item xs={0}>
+                        <div > By: </div>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <div id="author" style={{color:"blue", }}> McKilla Gorilla </div>
+                    </Grid>
+                   
+                    <Grid item xs={8} onClick={(event) => {
+                        handleLoadList(event, idNamePair._id)
+                    }}>
+                        <div style={{color:"red"}}> Edit </div>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <div> Views 100,000 </div>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <div> <KeyboardArrowDownIcon/> </div>
+                    </Grid>
+                </Grid>
+            </Box>
+            </div>
+                // <ListItem
+                //     id={idNamePair._id}
+                //     key={idNamePair._id}
+                //     sx={{ marginTop: '15px', display: 'flex', p: 1 }}
+                //     style={{ width: '100%' }}
+                //     button
+                //     onClick={(event) => {
+                //         handleLoadList(event, idNamePair._id)
+                //     }
+                //     }
+                //     style={{
+                //         fontSize: '48pt'
+                //     }}
+                // >
+                //         <Box sx={{ p: 1, flexGrow: 1 }}>{idNamePair.name}</Box>
+                //         <Box sx={{ p: 1 }}>
+                //             <IconButton onClick={handleToggleEdit} aria-label='edit'>
+                //                 <EditIcon style={{fontSize:'48pt'}} />
+                //             </IconButton>
+                //         </Box>
+                //         <Box sx={{ p: 1 }}>
+                //             <IconButton onClick={(event) => {
+                //                 handleDeleteList(event, idNamePair._id)
+                //             }} aria-label='delete'>
+                //                 <DeleteIcon style={{fontSize:'48pt'}} />
+                //             </IconButton>
+                //         </Box>
+                // </ListItem>
     if (editActive) {
         cardElement =
             <TextField
