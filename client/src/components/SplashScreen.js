@@ -12,53 +12,50 @@ import Button from '@mui/material/Button';
 import createMuiTheme from '@mui/core';
 import ThemeProvider from '@mui/core';
 import { borders } from '@mui/system';
+import AuthContext from '../auth'
 
 
 
 export default function SplashScreen() {
     return (
-        <Box sx={{ width: '100%' }}       justifyContent="center"
+        <Box sx={{ width: '100%' }}       
         >
-            <Grid container spacing={0} justify="center">
+            
+            <Grid container spacing={0}>
                 <div id="splash-screen">
-                    <Grid item xs={6}>
-                        <Box sx={{
-                                borderColor: 'text.primary',
-                                width: 300,
-                                height: 300,
-                                backgroundColor: 'primary.dark',
-                                '&:hover': {
-                                backgroundColor: 'primary.main',
-                                opacity: [0.9, 0.8, 0.7],
-                                },
-                            }}
-                        >
-                        </Box>
-                    </Grid>
-                    <Grid item xs={4}>
+                    <div id = "splash-screen-intro">
                         <Box  sx={{
-                            
-                            width: 300,
-                            height: 300,
-                            backgroundColor: 'primary.dark',
+                            color: "black",
+                            width: 350,
+                            height: 50,
                             '&:hover': {
-                            backgroundColor: 'primary.main',
-                            opacity: [0.9, 0.8, 0.7],
                             },
                         }}
                         >
+                           Welcome to the Top 5 Lister! This is an application that allows you to create a top 5 list for anything you desire. Your list will then affect a community list, an aggregation of all user-lists. 
+                        </Box>
+                    </div>
+                    <br></br>
 
-                            <br></br>
-                            <Button variant="contained"><Link to='/login/'>Sign-in</Link></Button>
-                            <br></br>
-                            <Button variant="contained"><Link to='/register/'>Sign-up</Link></Button>
-                            <br></br>
+                    <Box></Box>
+                    <div id = "splash-screen-navigation">
+                        <Box  sx={{
+                            '&:hover': {
+                            opacity: [0.1, 0.2, 1.0],
+                            },
+                        }}
+                        >
+                            <Button variant="contained"><Link to='/login/'>Sign-in</Link></Button><br></br>
+                            <Button variant="contained"><Link to='/register/'>Sign-up</Link></Button><br></br>
                             <Button variant="contained">Guest mode</Button>
                         </Box>
-                    </Grid>
-
+                    </div>
+                    <br></br>                    
                 </div>
+
             </Grid>
+            <Box><em><div id="creator-label">Made by Joshua Mathew</div></em></Box>
+
         </Box>
     )
 }

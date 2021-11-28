@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import AuthContext from '../auth';
 import { GlobalStoreContext } from '../store'
 
+
 import EditToolbar from './EditToolbar'
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -16,6 +17,7 @@ import Typography from '@mui/material/Typography';
 
 export default function AppBanner() {
     const { auth } = useContext(AuthContext);
+    
     const { store } = useContext(GlobalStoreContext);
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
@@ -91,10 +93,54 @@ export default function AppBanner() {
             return <AccountCircle />;
     }
 
+    if (auth.loggedIn){
+        return(
+            <Box sx={{ flexGrow: 1 }}>
+                <AppBar position="static">
+                <div id = "app-banner">
+
+                    <Toolbar>
+                        <Typography                        
+                            variant="h4"
+                            noWrap
+                            component="div"
+                            sx={{ display: { xs: 'none', sm: 'block' } }}                        
+                        >
+                            <Link style={{ textDecoration: 'none', color: 'white' }} to='/'>T<sup>5</sup>L</Link>
+                        </Typography>
+                        <Box sx={{ flexGrow: 1}}><Typography><em>The Top 5 Lister</em></Typography></Box>
+                        
+                        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+                            <IconButton
+                                size="large"
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={menuId}
+                                aria-haspopup="true"
+                                onClick={handleProfileMenuOpen}
+                                color="inherit"
+                            >
+                                { getAccountMenu(auth.loggedIn) }
+                            </IconButton>
+                        </Box>
+                    </Toolbar>
+                    </div>
+
+                </AppBar>
+                {
+                    menu
+                }
+            </Box>
+        );
+    }
+    else{
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box>
             <AppBar position="static">
+            <div id = "app-banner">
+
                 <Toolbar>
+
                     <Typography                        
                         variant="h4"
                         noWrap
@@ -104,25 +150,15 @@ export default function AppBanner() {
                         <Link style={{ textDecoration: 'none', color: 'white' }} to='/'>T<sup>5</sup>L</Link>
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}><Typography><em>The Top 5 Lister</em></Typography></Box>
-                    
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            { getAccountMenu(auth.loggedIn) }
-                        </IconButton>
-                    </Box>
+
                 </Toolbar>
+                                 </div>
+
             </AppBar>
             {
                 menu
             }
         </Box>
     );
+        }
 }
