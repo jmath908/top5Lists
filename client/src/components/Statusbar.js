@@ -13,8 +13,9 @@ function Statusbar() {
     if (store.currentList){
         text = store.currentList.name;
         return (
-            <div id="top5-statusbar">
-                <Typography variant="h4">{text}</Typography>
+            <div>
+            {/* // <div id="top5-statusbar"> */}
+                {/* <Typography variant="h4">{text}</Typography> */}
             </div>
         );
     }
