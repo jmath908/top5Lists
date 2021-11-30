@@ -99,6 +99,41 @@ export default function ListViewSelectorBar() {
         else
             return <AccountCircle />;
     }
+    if (store.currentList){
+        return (
+            <Box sx={{ flexGrow: 1 }}>
+                <Grid
+                    // container
+                    // spacing={0}
+                    // direction="column"
+                    // alignItems="center"
+                    // justifyContent="center"
+                    // style={{ minHeight: '100vh' }}
+                >
+                <AppBar position="static">
+                        <div id = "list-selector-toolbar">
+                            <div id="disabled-edit-icons">
+                                <Toolbar>
+                                        <HomeOutlinedIcon fontSize = "large" disabled="true"/>
+                                        <PeopleOutlineIcon fontSize = "large" disabled="true"/>
+                                        <PersonOutlinedIcon fontSize = "large" disabled="true"/>
+                                        <FunctionsOutlinedIcon fontSize = "large" disabled="true"/>
+                                        <TextField  sx={{ m: 1, width: '50ch' }} label="Search" variant="filled" disabled="true"/>
+                                        <div id = "list-selector-sortby">
+                                            <Typography fontSize = "20px" disabled="true">Sort By</Typography>
+                                        </div>
+                                        <SortIcon fontSize = "large" disabled="true"></SortIcon>
+                                </Toolbar>
+                            </div>
+                        </div>
+                </AppBar>
+                {
+                    menu
+                }
+                </Grid>
+            </Box>
+        );
+    }
 
     return (
         <Box sx={{ flexGrow: 1 }}>

@@ -88,8 +88,7 @@ function Top5Item(props) {
 
     let cardElement =
             <ListItem
-                id={'item-' + (index+1)}
-                className={itemClass}
+               
                 onDragStart={(event) => {
                     handleDragStart(event, (index+1))
                 }}
@@ -106,14 +105,9 @@ function Top5Item(props) {
                     handleDrop(event, (index+1))
                 }}
                 draggable="true"
-                sx={{ display: 'flex', p: 1 }}
-                style={{ width: '100%' }}
-                style={{
-                    fontSize: '48pt'
-                }}
             >
           
-                <Box sx={{ p: 1, flexGrow: 1 }}>{props.text}</Box>
+                <Box>{props.text}</Box>
             </ListItem>
 
     if (editActive) {
