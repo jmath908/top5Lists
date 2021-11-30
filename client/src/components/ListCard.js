@@ -88,7 +88,7 @@ function ListCard(props) {
         cardStatus = true;
     }
     let cardElement =
-    <div id = "list-card-nonediting">
+        <div id = "list-card-nonediting">
             <Box sx={{borderRadius: 0, display: 'flex'}}>
                 <Grid container spacing={0.5} 
                     id={idNamePair._id}
@@ -101,10 +101,10 @@ function ListCard(props) {
                         <Box><div id="list-name">{idNamePair.name}</div></Box>
                     </Grid>
                     <Grid item xs={2} sx={{fontSize: '20px', left: "5px"}}>
-                        <div style={{background:"white"}}><ThumbUpOutlinedIcon/> 127k </div>
+                        <div style={{background:"white"}}><ThumbUpOutlinedIcon/> {idNamePair.dislikes} </div>
                     </Grid>
                     <Grid item xs={2} sx={{fontSize: '20px'}}>
-                        <div style={{background:"white"}}><ThumbDownOutlinedIcon/> 33 </div>
+                        <div style={{background:"white"}}><ThumbDownOutlinedIcon/> {idNamePair.likes} </div>
                     </Grid> 
                     <Grid item xs={2}>
                         <div style={{background:"white"}}>
@@ -115,7 +115,7 @@ function ListCard(props) {
                         <div > By: </div>
                     </Grid>
                     <Grid item xs={4}>
-                        <div id="author" style={{color:"blue", }}> McKilla Gorilla </div>
+                        <div id="author" style={{color:"blue", }}> {idNamePair.username} </div>
                     </Grid>
                    
                     <Grid item xs={8} onClick={(event) => {
@@ -124,14 +124,14 @@ function ListCard(props) {
                         <div style={{color:"red"}}> Edit </div>
                     </Grid>
                     <Grid item xs={2}>
-                        <div> Views 100,000 </div>
+                        <div> Views: {idNamePair.views} </div>
                     </Grid>
                     <Grid item xs={2}>
                         <div> <KeyboardArrowDownIcon/> </div>
                     </Grid>
                 </Grid>
             </Box>
-            </div>
+        </div>
                 // <ListItem
                 //     id={idNamePair._id}
                 //     key={idNamePair._id}

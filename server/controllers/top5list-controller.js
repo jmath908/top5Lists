@@ -84,7 +84,7 @@ getTop5ListById = async (req, res) => {
 
         // DOES THIS LIST BELONG TO THIS USER?
         async function asyncFindUser(list) {
-            await User.findOne({ email: list.ownerEmail }, (err, user) => {
+            await User.findOne({ email: list.username }, (err, user) => {
                 console.log("user._id: " + user._id);
                 console.log("req.userId: " + req.userId);
                 if (user._id == req.userId) {
@@ -104,7 +104,8 @@ getTop5ListPairs = async (req, res) => {
     console.log("getTop5ListPairs");
     await User.findOne({ _id: req.userId }, (err, user) => {
         console.log("find user with id " + req.userId);
-        async function asyncFindList(email) {
+        async function asyncFindList(email, username) {
+            console.log(username)
             console.log("find all Top5Lists owned by " + email);
             await Top5List.find({ ownerEmail: email }, (err, top5Lists) => {
                 console.log("found Top5Lists: " + JSON.stringify(top5Lists));
@@ -125,7 +126,11 @@ getTop5ListPairs = async (req, res) => {
                         let list = top5Lists[key];
                         let pair = {
                             _id: list._id,
-                            name: list.name
+                            name: list.name,
+                            username: username,
+                            likes: list.likes,
+                            dislikes: list.dislikes,
+                            views: list.views,
                         };
                         pairs.push(pair);
                     }
@@ -133,7 +138,7 @@ getTop5ListPairs = async (req, res) => {
                 }
             }).catch(err => console.log(err))
         }
-        asyncFindList(user.email);
+        asyncFindList(user.email, user.username);
     }).catch(err => console.log(err))
 }
 getTop5Lists = async (req, res) => {
@@ -181,6 +186,9 @@ updateTop5List = async (req, res) => {
 
                     list.name = body.top5List.name;
                     list.items = body.top5List.items;
+                    list.likes = body.top5List.likes;
+                    list.dislikes = body.top5List.dislikes;
+                    list.views = body.top5List.views;
                     list
                         .save()
                         .then(() => {
