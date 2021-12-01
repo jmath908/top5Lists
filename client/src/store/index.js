@@ -299,7 +299,9 @@ function GlobalStoreContextProvider(props) {
             }
         }
     }
-
+    store.getList = async function (id){
+        
+    }
     store.addMoveItemTransaction = function (start, end) {
         let transaction = new MoveItem_Transaction(store, start, end);
         tps.addTransaction(transaction);

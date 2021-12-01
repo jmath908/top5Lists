@@ -1,15 +1,19 @@
 import { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
+import Top5Item from './Top5Item.js'
 import Box from '@mui/material/Box';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import IconButton from '@mui/material/IconButton';
-import ListItem from '@mui/material/ListItem';
+import { styled, alpha } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import { Typography } from '@mui/material';
+import Menu from '@mui/material/Menu';
+import * as React from 'react';
+
+import MenuItem from '@mui/material/MenuItem';
+
 import { borders } from '@mui/system';
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
@@ -25,6 +29,55 @@ function ListCard(props) {
     const [editActive, setEditActive] = useState(false);
     const [text, setText] = useState("");
     const { idNamePair, selected } = props;
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
+  
+    const StyledMenu = styled((props) => (
+        <Menu
+          elevation={0}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+          {...props}
+        />
+      ))(({ theme }) => ({
+        '& .MuiPaper-root': {
+          borderRadius: 6,
+          marginTop: theme.spacing(1),
+          minWidth: 180,
+          color:
+            theme.palette.mode === 'light' ? 'rgb(55, 65, 81)' : theme.palette.grey[300],
+          boxShadow:
+            'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
+          '& .MuiMenu-list': {
+            padding: '4px 0',
+          },
+          '& .MuiMenuItem-root': {
+            '& .MuiSvgIcon-root': {
+              fontSize: 18,
+              color: theme.palette.text.secondary,
+              marginRight: theme.spacing(1.5),
+            },
+            '&:active': {
+              backgroundColor: alpha(
+                theme.palette.primary.main,
+                theme.palette.action.selectedOpacity,
+              ),
+            },
+          },
+        },
+      }));
 
     function handleLoadList(event, id) {
         console.log("handleLoadList for " + id);
@@ -59,7 +112,12 @@ function ListCard(props) {
         _id = ("" + _id).substring("delete-list-".length);
         store.markListForDeletion(id);
     }
-
+    let editItems = "";
+    if (store.currentList) {
+        alert("hel")
+        editItems = store.currentList.items;
+        console.log(editItems);
+    }
     function handleKeyPress(event) {
         if (event.code === "Enter") {
             let id = event.target.id.substring("list-".length);
@@ -70,13 +128,14 @@ function ListCard(props) {
     function handleUpdateText(event) {
         setText(event.target.value);
     }
+    function handleOpenDropdown(event){
+
+    }
     const commonStyles = {
         bgcolor: 'background.paper',
         borderColor: 'text.primary',
         m: 1,
         border: 1,
-        width: '5rem',
-        height: '5rem',
       };
       
     let selectClass = "unselected-list-card";
@@ -89,8 +148,8 @@ function ListCard(props) {
     }
     let cardElement =
         <div id = "list-card-nonediting">
-            <Box sx={{borderRadius: 0, display: 'flex'}}>
-                <Grid container spacing={0.5} 
+            <Box sx={{borderRadius: 4, bgcolor: "white", borderColor: 'text.primary', border: 5}}>
+                <Grid container spacing={0.5}  
                     id={idNamePair._id}
                     key={idNamePair._id}
                     sx={{ marginTop: '0px', display: 'flex', p: 0 }}
@@ -101,16 +160,76 @@ function ListCard(props) {
                         <Box><div id="list-name">{idNamePair.name}</div></Box>
                     </Grid>
                     <Grid item xs={2} sx={{fontSize: '20px', left: "5px"}}>
-                        <div style={{background:"white"}}><ThumbUpOutlinedIcon/> {idNamePair.dislikes} </div>
+                        <div  style={{background:"white"}}><ThumbUpOutlinedIcon id = "list-card-element"/> {idNamePair.dislikes} </div>
                     </Grid>
                     <Grid item xs={2} sx={{fontSize: '20px'}}>
-                        <div style={{background:"white"}}><ThumbDownOutlinedIcon/> {idNamePair.likes} </div>
+                        <div style={{background:"white"}}><ThumbDownOutlinedIcon id = "list-card-element"/> {idNamePair.likes} </div>
                     </Grid> 
                     <Grid item xs={2}>
                         <div style={{background:"white"}}>
-                             <DeleteOutlinedIcon></DeleteOutlinedIcon> 
+                             <DeleteOutlinedIcon id = "list-card-element"></DeleteOutlinedIcon> 
                              </div>
                     </Grid>
+                    {/* Insert the list expansion */}
+                    <Grid>
+                    <Grid item xs={12}>
+                    <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "navy", flexGrow: 1}}  >
+                        <Grid container spacing={2} sx={{p:2}}>
+                            <Grid item xs={1}>
+                                <Box sx={{ color: "gold" , alignItems: "center"}}>
+                                <Typography>1.</Typography>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={11}>
+                                <Box sx={{ color: "gold" }}>
+                                <Typography >{editItems[0]}</Typography>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={1}>
+                                <Box sx={{color: "gold" , alignItems: "center"}}>
+                                <Typography >2.</Typography>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={11}>
+                                <Box sx={{color: "gold" }}>
+                                <Typography >{editItems[1]}</Typography>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={1}>
+                                <Box sx={{color: "gold" , alignItems: "center"}}>
+                                <Typography >3.</Typography>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={11}>
+                                <Box sx={{color: "gold" }}>
+                                <Typography >{editItems[2]}</Typography>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={1}>
+                                <Box sx={{color: "gold" , alignItems: "center"}}>
+                                <Typography >4.</Typography>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={11}>
+                                <Box sx={{color: "gold" }}>
+                                <Typography variant="h3">{editItems[3]}</Typography>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={1}>
+                                <Box sx={{color: "gold" , alignItems: "center"}}>
+                                <Typography >5.</Typography>
+                                </Box>
+                            </Grid>
+                            <Grid item xs={11}>
+                                <Box sx={{color: "gold" }}>
+                                <Typography >{editItems[4]}</Typography>
+                                </Box>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                    </Grid>
+                    </Grid>
+                    
                     <Grid item xs={0}>
                         <div > By: </div>
                     </Grid>
@@ -121,13 +240,15 @@ function ListCard(props) {
                     <Grid item xs={8} onClick={(event) => {
                         handleLoadList(event, idNamePair._id)
                     }}>
-                        <div style={{color:"red"}}> Edit </div>
+                        <div id = "list-card-element" style={{color:"red"}}> Edit </div>
                     </Grid>
                     <Grid item xs={2}>
                         <div> Views: {idNamePair.views} </div>
                     </Grid>
-                    <Grid item xs={2}>
-                        <div> <KeyboardArrowDownIcon/> </div>
+                    <Grid item xs={2} >
+                    <div style={{background:"white"}}>
+                             <KeyboardArrowDownIcon id = "list-card-element" onClick = {(event)=>{handleOpenDropdown()}}></KeyboardArrowDownIcon> 
+                             </div>
                     </Grid>
                 </Grid>
             </Box>

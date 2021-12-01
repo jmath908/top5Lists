@@ -21,12 +21,12 @@ const HomeScreen = () => {
 
     useEffect(() => {
         store.loadIdNamePairs();
+        console.log(store.idNamePairs);
     }, []);
     const commonStyles = {
-        bgcolor: 'background.paper',
+        bgcolor: '#959599',
         borderColor: 'text.primary',
         m: 1,
-        border: 1,
       };
     function handleCreateNewList() {
         store.createNewList();
@@ -35,15 +35,19 @@ const HomeScreen = () => {
     if (store) {
         listCard = 
         <Box sx={{ ...commonStyles, borderRadius: 4 }} >
-            <List sx={{ width: '90%', left: '5%', bgcolor: 'background.paper' }}>
+            <List sx={{ width: '100%', left: '0%' }}>
             {
+                
                 store.idNamePairs.map((pair) => (
                     <ListCard
+                        
                         key={pair._id}
                         idNamePair={pair}
                         selected={false}
                     />
+                    
                 ))
+                
             }
             </List>
         </Box>

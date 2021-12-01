@@ -38,6 +38,12 @@ function WorkspaceScreen() {
             //     }
             // </List>;
     }
+    function handleSave(){
+
+    }
+    function handlePublish(){
+        
+    }
     const commonStyles = {
         bgcolor: 'background.paper',
         borderColor: 'text.primary',
@@ -117,8 +123,8 @@ function WorkspaceScreen() {
                             </Grid>
                         </Grid>
                     </Box>
-                <Button id="save-publish-buttons" sx={{ left: "65%" }} variant="contained">Save</Button>
-                <Button id="save-publish-buttons" sx={{ left: "70%" }} variant="contained">Publish</Button>
+                <Button id="save-publish-buttons" sx={{ left: "65%" }} variant="contained" onClick={()=>handleSave()}>Save</Button>
+                <Button id="save-publish-buttons" sx={{ left: "70%" }} variant="contained" onClick={()=>handlePublish()}>Publish</Button>
                 
             </Box>
             {/* {editItems} */}

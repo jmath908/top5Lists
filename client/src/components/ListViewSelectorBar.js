@@ -28,7 +28,7 @@ export default function ListViewSelectorBar() {
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
 
-    const handleProfileMenuOpen = (event) => {
+    const handleSortMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
 
@@ -114,15 +114,15 @@ export default function ListViewSelectorBar() {
                         <div id = "list-selector-toolbar">
                             <div id="disabled-edit-icons">
                                 <Toolbar>
-                                        <HomeOutlinedIcon fontSize = "large" disabled="true"/>
-                                        <PeopleOutlineIcon fontSize = "large" disabled="true"/>
-                                        <PersonOutlinedIcon fontSize = "large" disabled="true"/>
-                                        <FunctionsOutlinedIcon fontSize = "large" disabled="true"/>
+                                        <HomeOutlinedIcon id = "disabled-view-selector" fontSize = "large" disabled="true"/>
+                                        <PeopleOutlineIcon id = "disabled-view-selector" fontSize = "large" disabled="true"/>
+                                        <PersonOutlinedIcon id = "disabled-view-selector" fontSize = "large" disabled="true"/>
+                                        <FunctionsOutlinedIcon id = "disabled-view-selector" fontSize = "large" disabled="true"/>
                                         <TextField  sx={{ m: 1, width: '50ch' }} label="Search" variant="filled" disabled="true"/>
                                         <div id = "list-selector-sortby">
                                             <Typography fontSize = "20px" disabled="true">Sort By</Typography>
                                         </div>
-                                        <SortIcon fontSize = "large" disabled="true"></SortIcon>
+                                        <SortIcon id = "disabled-view-selector" fontSize = "large" disabled="true"></SortIcon>
                                 </Toolbar>
                             </div>
                         </div>
@@ -148,15 +148,15 @@ export default function ListViewSelectorBar() {
             <AppBar position="static">
                     <div id = "list-selector-toolbar">
                     <Toolbar>
-                            <HomeOutlinedIcon fontSize = "large"/>
-                            <PeopleOutlineIcon fontSize = "large"/>
-                            <PersonOutlinedIcon fontSize = "large"/>
-                            <FunctionsOutlinedIcon fontSize = "large"/>
+                            <HomeOutlinedIcon id = "enabled-view-selector" fontSize = "large"/>
+                            <PeopleOutlineIcon id = "enabled-view-selector" fontSize = "large"/>
+                            <PersonOutlinedIcon id = "enabled-view-selector" fontSize = "large"/>
+                            <FunctionsOutlinedIcon id = "enabled-view-selector" fontSize = "large"/>
                             <TextField  sx={{ m: 1, width: '50ch' }} label="Search" variant="filled"/>
                             <div id = "list-selector-sortby">
                                 <Typography fontSize = "20px">Sort By</Typography>
                             </div>
-                            <SortIcon fontSize = "large"></SortIcon>
+                            <SortIcon id = "enabled-view-selector" onClick = {()=>handleSortMenuOpen} fontSize = "large"></SortIcon>
                     </Toolbar>
                     </div>
             </AppBar>
