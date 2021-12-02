@@ -105,7 +105,9 @@ export default function AppBanner() {
                             component="div"
                             sx={{ display: { xs: 'none', sm: 'block' } }}                        
                         >
-                            <Link style={{ textDecoration: 'none', color: 'white' }} to='/'>T<sup>5</sup>L</Link>
+                            <Link style={{ textDecoration: 'none', color: 'white' }} to='/'>
+                            T<sup>5</sup>L
+                            </Link>
                         </Typography>
                         <Box sx={{ flexGrow: 1}}><Typography><em>The Top 5 Lister</em></Typography></Box>
                         
@@ -137,9 +139,7 @@ export default function AppBanner() {
         <Box>
             <AppBar position="static">
             <div id = "app-banner">
-
                 <Toolbar>
-
                     <Typography                        
                         variant="h4"
                         noWrap
@@ -149,9 +149,8 @@ export default function AppBanner() {
                         <Link style={{ textDecoration: 'none', color: 'white' }} to='/'>T<sup>5</sup>L</Link>
                     </Typography>
                     <Box sx={{ flexGrow: 1 }}><Typography><em>The Top 5 Lister</em></Typography></Box>
-
                 </Toolbar>
-                                 </div>
+            </div>
 
             </AppBar>
             {

@@ -251,6 +251,7 @@ function GlobalStoreContextProvider(props) {
     // showDeleteListModal, and hideDeleteListModal
     store.markListForDeletion = async function (id) {
         // GET THE LIST
+        alert(id);
         let response = await api.getTop5ListById(id);
         if (response.status === 200) {
             let top5List = response.data.top5List;
@@ -266,6 +267,58 @@ function GlobalStoreContextProvider(props) {
         if (response.status === 200) {
             store.loadIdNamePairs();
             history.push("/");
+        }
+    }
+    store.listLike = async function (id,) {
+        let response = await api.getTop5ListById(id);
+        if (response.status === 200) {
+            let top5List = response.data.top5List;
+            top5List.likes = top5List.likes+1;
+            async function updateList(top5List) {
+                response = await api.updateTop5ListById(top5List._id, top5List);
+                if (response.status === 200) {
+                    async function getListPairs(top5List) {
+                        response = await api.getTop5ListPairs();
+                        if (response.status === 200) {
+                            let pairsArray = response.data.idNamePairs;
+                            storeReducer({
+                                type: GlobalStoreActionType.CHANGE_LIST_NAME,
+                                payload: {
+                                    idNamePairs: pairsArray,
+                                }
+                            });
+                        }
+                    }
+                    getListPairs(top5List);
+                }
+            }
+            updateList(top5List);
+        }
+    }
+    store.listDislike = async function (id,) {
+        let response = await api.getTop5ListById(id);
+        if (response.status === 200) {
+            let top5List = response.data.top5List;
+            top5List.dislikes = top5List.dislikes+1;
+            async function updateList(top5List) {
+                response = await api.updateTop5ListById(top5List._id, top5List);
+                if (response.status === 200) {
+                    async function getListPairs(top5List) {
+                        response = await api.getTop5ListPairs();
+                        if (response.status === 200) {
+                            let pairsArray = response.data.idNamePairs;
+                            storeReducer({
+                                type: GlobalStoreActionType.CHANGE_LIST_NAME,
+                                payload: {
+                                    idNamePairs: pairsArray,
+                                }
+                            });
+                        }
+                    }
+                    getListPairs(top5List);
+                }
+            }
+            updateList(top5List);
         }
     }
 
