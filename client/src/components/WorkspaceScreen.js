@@ -48,6 +48,7 @@ function WorkspaceScreen() {
         bgcolor: 'background.paper',
         borderColor: 'text.primary',
         m: 1,
+        l:5,
         border: 1,
         
       };
@@ -72,53 +73,53 @@ function WorkspaceScreen() {
                     <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "navy", }} >
                         <Grid container spacing={2} sx={{p:2}}>
                             <Grid item xs={1}>
-                                <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" , height: 72, alignItems: "center"}}>
-                                <Typography variant="h3">1.</Typography>
+                                <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" , height: 55, alignItems: "center"}}>
+                                <Typography variant="h4">1.</Typography>
                                 </Box>
                             </Grid>
                             <Grid item xs={11}>
                                 <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" }}>
-                                <Typography variant="h3">{editItems[0]}</Typography>
+                                <TextField defaultValue={editItems[0]} fullWidth>{editItems[0]}</TextField>
                                 </Box>
                             </Grid>
                             <Grid item xs={1}>
-                                <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" , height: 72, alignItems: "center"}}>
-                                <Typography variant="h3">2.</Typography>
+                                <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" , height: 55, alignItems: "center"}}>
+                                <Typography variant="h4">2.</Typography>
                                 </Box>
                             </Grid>
                             <Grid item xs={11}>
                                 <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" }}>
-                                <Typography variant="h3">{editItems[1]}</Typography>
+                                <TextField defaultValue={editItems[1]} fullWidth>{editItems[1]}</TextField>
                                 </Box>
                             </Grid>
                             <Grid item xs={1}>
-                                <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" , height: 72, alignItems: "center"}}>
-                                <Typography variant="h3">3.</Typography>
+                                <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" , height: 55, alignItems: "center"}}>
+                                <Typography variant="h4">3.</Typography>
                                 </Box>
                             </Grid>
                             <Grid item xs={11}>
                                 <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" }}>
-                                <Typography variant="h3">{editItems[2]}</Typography>
+                                <TextField defaultValue={editItems[2]} fullWidth>{editItems[2]}</TextField>
                                 </Box>
                             </Grid>
                             <Grid item xs={1}>
-                                <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" , height: 72, alignItems: "center"}}>
-                                <Typography variant="h3">4.</Typography>
+                                <Box alignItems sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" , height: 55, }} >
+                                <Typography variant="h4">4.</Typography>
                                 </Box>
                             </Grid>
                             <Grid item xs={11}>
                                 <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" }}>
-                                <Typography variant="h3">{editItems[3]}</Typography>
+                                <TextField defaultValue={editItems[3]} fullWidth>{editItems[3]}</TextField>
                                 </Box>
                             </Grid>
                             <Grid item xs={1}>
-                                <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" , height: 72, alignItems: "center"}}>
-                                <Typography variant="h3">5.</Typography>
+                                <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" , height: 55, alignItems: "center"}}>
+                                <Typography variant="h4">5.</Typography>
                                 </Box>
                             </Grid>
                             <Grid item xs={11}>
                                 <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" }}>
-                                <Typography variant="h3">{editItems[4]}</Typography>
+                                <TextField defaultValue={editItems[4]} fullWidth></TextField>
                                 </Box>
                             </Grid>
                         </Grid>

@@ -251,7 +251,6 @@ function GlobalStoreContextProvider(props) {
     // showDeleteListModal, and hideDeleteListModal
     store.markListForDeletion = async function (id) {
         // GET THE LIST
-        alert(id);
         let response = await api.getTop5ListById(id);
         if (response.status === 200) {
             let top5List = response.data.top5List;
@@ -269,11 +268,11 @@ function GlobalStoreContextProvider(props) {
             history.push("/");
         }
     }
-    store.listLike = async function (id,) {
+    store.listLike = async function (id, amt) {
         let response = await api.getTop5ListById(id);
         if (response.status === 200) {
             let top5List = response.data.top5List;
-            top5List.likes = top5List.likes+1;
+            top5List.likes = top5List.likes+amt;
             async function updateList(top5List) {
                 response = await api.updateTop5ListById(top5List._id, top5List);
                 if (response.status === 200) {
@@ -295,11 +294,11 @@ function GlobalStoreContextProvider(props) {
             updateList(top5List);
         }
     }
-    store.listDislike = async function (id,) {
+    store.listDislike = async function (id, amt) {
         let response = await api.getTop5ListById(id);
         if (response.status === 200) {
             let top5List = response.data.top5List;
-            top5List.dislikes = top5List.dislikes+1;
+            top5List.dislikes = top5List.dislikes+amt;
             async function updateList(top5List) {
                 response = await api.updateTop5ListById(top5List._id, top5List);
                 if (response.status === 200) {
@@ -321,7 +320,32 @@ function GlobalStoreContextProvider(props) {
             updateList(top5List);
         }
     }
-
+    store.listView = async function (id) {
+        let response = await api.getTop5ListById(id);
+        if (response.status === 200) {
+            let top5List = response.data.top5List;
+            top5List.views = top5List.views+1;
+            async function updateList(top5List) {
+                response = await api.updateTop5ListById(top5List._id, top5List);
+                if (response.status === 200) {
+                    async function getListPairs(top5List) {
+                        response = await api.getTop5ListPairs();
+                        if (response.status === 200) {
+                            let pairsArray = response.data.idNamePairs;
+                            storeReducer({
+                                type: GlobalStoreActionType.CHANGE_LIST_NAME,
+                                payload: {
+                                    idNamePairs: pairsArray,
+                                }
+                            });
+                        }
+                    }
+                    getListPairs(top5List);
+                }
+            }
+            updateList(top5List);
+        }
+    }
     store.deleteMarkedList = function () {
         store.deleteList(store.listMarkedForDeletion);
     }

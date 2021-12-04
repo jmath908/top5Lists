@@ -17,6 +17,8 @@ import MenuItem from '@mui/material/MenuItem';
 import { borders } from '@mui/system';
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 /*
     This is a card in our list of top 5 lists. It lets select
     a list for editing and it has controls for changing its 
@@ -28,9 +30,11 @@ function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
     const [editActive, setEditActive] = useState(false);
     const [expanded, setExpanded] = useState(false);
+    const [likeOrDislike, setLikeOrDislike] = useState(null);
     const [text, setText] = useState("");
     const { idNamePair, selected } = props;
     const [anchorEl, setAnchorEl] = React.useState(null);
+
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
@@ -107,17 +111,77 @@ function ListCard(props) {
         setEditActive(newActive);
     }
 
+    async function likelist(id, amt){
+        await store.listLike(id, amt);              
+    }
+    async function dislikelist(id, amt){
+        await store.listDislike(id, amt);
+    }
+
     async function handleDeleteList(event, id) {
         event.stopPropagation();
         let _id = event.target.id;
         _id = ("" + _id).substring("delete-list-".length);
         store.markListForDeletion(id);
     }
+    
+    let thumbsUp = !(likeOrDislike==="liked")?<ThumbUpOutlinedIcon id = "list-card-element" onClick = {(event)=>{handleListLike(event, idNamePair._id)}}/>:<ThumbUpIcon id = "list-card-element" onClick = {(event)=>{handleListLike(event, idNamePair._id)}}/>;
+    let thumbsDown = !(likeOrDislike==="disliked")?<ThumbDownOutlinedIcon id = "list-card-element" onClick = {(event)=>{handleListDislike(event, idNamePair._id)}}/>:<ThumbDownIcon id = "list-card-element" onClick = {(event)=>{handleListDislike(event, idNamePair._id)}}/>;
     async function handleListLike(event, id){
-        store.listLike(id);
+        //if list was already disliked, undo dislike (-1 dislike & +1 like)
+        if(likeOrDislike==="disliked"){
+            await likelist(id, 1);
+            await dislikelist(id, -1);       
+            setLikeOrDislike("liked");
+            thumbsUp = <ThumbUpIcon id = "list-card-element" onClick = {(event)=>{handleListLike(event, idNamePair._id)}}/>;
+            thumbsDown = <ThumbDownOutlinedIcon id = "list-card-element" onClick = {(event)=>{handleListDislike(event, idNamePair._id)}}/>;
+        }
+        //if list was already liked, undo like (-1 like)
+        else if(likeOrDislike==="liked"){
+            new Promise((resolve, reject) => {
+                resolve('ok')
+                store.listLike(id, -1)});              
+            setLikeOrDislike(null);
+            thumbsUp = <ThumbUpOutlinedIcon id = "list-card-element" onClick = {(event)=>{handleListLike(event, idNamePair._id)}}/>;
+            thumbsDown = <ThumbDownOutlinedIcon id = "list-card-element" onClick = {(event)=>{handleListDislike(event, idNamePair._id)}}/>;
+        }
+        else{
+            new Promise((resolve, reject) => {
+                resolve('ok')
+                store.listLike(id, 1)});              
+            setLikeOrDislike("liked");
+            thumbsUp = <ThumbUpIcon id = "list-card-element" onClick = {(event)=>{handleListLike(event, idNamePair._id)}}/>;
+            thumbsDown = <ThumbDownOutlinedIcon id = "list-card-element" onClick = {(event)=>{handleListDislike(event, idNamePair._id)}}/>;
+
+        }
     }
+
     async function handleListDislike(event, id){
-        store.listDislike(id);
+        //if list was already liked, undo like (-1 like & +1 dislike)
+        if(likeOrDislike==="liked"){
+            await likelist(id, -1);
+            await dislikelist(id, 1);            
+            setLikeOrDislike("disliked");
+            thumbsUp = <ThumbUpOutlinedIcon id = "list-card-element" onClick = {(event)=>{handleListLike(event, idNamePair._id)}}/>;
+            thumbsDown = <ThumbDownIcon id = "list-card-element" onClick = {(event)=>{handleListDislike(event, idNamePair._id)}}/>;
+        }
+        //if list was already disliked, undo dislike (-1 dislike)
+        else if(likeOrDislike==="disliked"){
+            new Promise((resolve, reject) => {
+                resolve('ok')
+                store.listDislike(id, -1)});            
+            setLikeOrDislike(null);
+            thumbsUp = <ThumbUpOutlinedIcon id = "list-card-element" onClick = {(event)=>{handleListLike(event, idNamePair._id)}}/>;
+            thumbsDown = <ThumbDownOutlinedIcon id = "list-card-element" onClick = {(event)=>{handleListDislike(event, idNamePair._id)}}/>;
+        }
+        else{
+            new Promise((resolve, reject) => {
+                resolve('ok')
+                store.listDislike(id, 1)});            
+            setLikeOrDislike("disliked");
+            thumbsUp = <ThumbUpOutlinedIcon id = "list-card-element" onClick = {(event)=>{handleListLike(event, idNamePair._id)}}/>;
+            thumbsDown = <ThumbDownIcon id = "list-card-element" onClick = {(event)=>{handleListDislike(event, idNamePair._id)}}/>;
+        }
     }
     let editItems = "";
     if (store.currentList) {
@@ -135,14 +199,15 @@ function ListCard(props) {
         setText(event.target.value);
     }
 
-    function handleToggleExpansion(event) {
+    function handleToggleExpansion(event, id) {
         event.stopPropagation();
-        toggleExpansion();
+        toggleExpansion(id);
     }
 
-    function toggleExpansion() {
+    async function toggleExpansion(id) {
         let newExpansion = !expanded;
         if (newExpansion) {
+            store.listView(id);
         }
         setExpanded(newExpansion);
     }
@@ -152,6 +217,26 @@ function ListCard(props) {
         m: 1,
         border: 1,
       };
+
+    //for thumbsup/thumbsdown icon
+    // if user clicks like, it will change to darkened thumb
+    // if user clicks dislike, it will undo the like
+    // if user does not want to vote, they can return the thumb to neutral
+    // user should have knowledge of what lists they have liked
+    function handleToggleLikeDislike(event, id) {
+        // if "dislike" is passed
+        // check if
+        event.stopPropagation();
+        toggleExpansion(id);
+    }
+
+    async function toggleLikeDislike(id) {
+        let newExpansion = !expanded;
+        if (newExpansion) {
+            store.listView(id);
+        }
+        setExpanded(newExpansion);
+    }
       
     let selectClass = "unselected-list-card";
     if (selected) {
@@ -241,10 +326,10 @@ function ListCard(props) {
                         <Box><div id="list-name">{idNamePair.name}</div></Box>
                     </Grid>
                     <Grid item xs={2} sx={{fontSize: '20px', left: "5px"}}>
-                        <div  style={{background:"white"}}><ThumbUpOutlinedIcon id = "list-card-element" onClick = {(event)=>{handleListLike(event, idNamePair._id)}}/> {idNamePair.likes} </div>
+                        <div  style={{background:"white"}}>{thumbsUp}{idNamePair.likes} </div>
                     </Grid>
                     <Grid item xs={2} sx={{fontSize: '20px'}}>
-                        <div style={{background:"white"}}><ThumbDownOutlinedIcon id = "list-card-element" onClick = {(event)=>{handleListDislike(event, idNamePair._id)}}/> {idNamePair.dislikes} </div>
+                        <div style={{background:"white"}}>{thumbsDown}{idNamePair.dislikes} </div>
                     </Grid> 
                     <Grid item xs={2}>
                         <div style={{background:"white"}}>
@@ -253,7 +338,7 @@ function ListCard(props) {
                             }}></DeleteOutlinedIcon> 
                              </div>
                     </Grid>
-                    {(injectExpansion)}                    
+                    {injectExpansion}                    
                     <Grid item xs={0}>
                         <div > By: </div>
                     </Grid>
@@ -271,7 +356,7 @@ function ListCard(props) {
                     </Grid>
                     <Grid item xs={2} >
                     <div style={{background:"white"}}>
-                             <KeyboardArrowDownIcon id = "list-card-element" onClick = {handleToggleExpansion}></KeyboardArrowDownIcon> 
+                             <KeyboardArrowDownIcon id = "list-card-element" onClick = {(event)=>{handleToggleExpansion(event, idNamePair._id)}}></KeyboardArrowDownIcon> 
                              </div>
                     </Grid>
                 </Grid>
