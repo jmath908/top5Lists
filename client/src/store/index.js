@@ -300,6 +300,7 @@ function GlobalStoreContextProvider(props) {
         }
     }
     store.listLike = async function (id, amt) {
+        
         let response = await api.getTop5ListById(id);
         if (response.status === 200) {
             let top5List = response.data.top5List;

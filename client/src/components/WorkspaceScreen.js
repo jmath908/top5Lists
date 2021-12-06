@@ -34,19 +34,22 @@ function WorkspaceScreen() {
         console.log(store.currentList.items);
     }
 
-    function handleSave(){
+    async function handleSave(){
         //now update the items
-        store.updateItems(list.splice(1))
+            //now update the items
+        store.updateItems(list.splice(1));
         store.changeListName(store.currentList._id, list[0]);
         //now set list to published
-        store.currentList.published = false;
+        console.log(store.currentList._id);
+        console.log(store.currentList);
         store.closeCurrentList();
 
     }
-    function handlePublish(){
+    async function handlePublish(){
         //do check:
         // no duplicate
         // no blanks
+        //store.listLike(store.currentList._id,1);
         if(checkPublishable()){
             //update the list
             //start with list-name: need listId and new name
@@ -54,13 +57,17 @@ function WorkspaceScreen() {
             //now update the items
             store.updateItems(list.splice(1));
             store.changeListName(store.currentList._id, list[0]);
-            
             //now set list to published
-            store.listPublish(store.currentList._id);
+            handleDBPublish();
+            console.log(store.currentList._id);
             console.log(store.currentList);
             store.closeCurrentList();
         }
         
+    }
+    async function handleDBPublish (){
+        store.listPublish(store.currentList._id);
+
     }
     function checkPublishable(){
         console.log(list);

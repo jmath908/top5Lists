@@ -205,7 +205,9 @@ function ListCard(props) {
     async function toggleExpansion(event,id) {
         let newExpansion = !expanded;
         if (newExpansion) {
-            store.listView(id);
+            if(idNamePair.published){
+                store.listView(id);
+            }
             editItems=idNamePair.clist;
         }
         setExpanded(newExpansion);
@@ -237,7 +239,7 @@ function ListCard(props) {
         cardStatus = true;
     }
     let comments = "";
-    if(expanded){
+    if(expanded&&idNamePair.published){
     
     comments = 
     <div>
@@ -266,6 +268,24 @@ function ListCard(props) {
         />}
         </div>
             
+    }
+    else{
+        <div>
+            <Grid item xs={12}>
+                    <Box>
+                        <List sx={{ width: '90%', left: '0%' }}>
+                        {
+                            idNamePair.comments.map((item) => (
+                                <ListComment
+                                    username={item.username}
+                                    comment={item.comment}
+                                />
+                            ))
+                        }
+                        </List>
+                    </Box>
+                </Grid>
+        </div>
     }
     let bgc = "white";
     if(idNamePair.published == true){
@@ -335,15 +355,13 @@ function ListCard(props) {
 
     }
     else{
-        
         injectExpansion = <div></div>
     }
-    
-    
-    
-    let cardElement =
+    let cardElement
+    if(idNamePair.published == true){
+    cardElement =
         <div id = "list-card-nonediting">
-            <Box sx={{borderRadius: 4, bgcolor: bgc, borderColor: 'text.primary', border: 5}}>
+            <Box sx={{borderRadius: 4, bgcolor: "lavender", borderColor: 'text.primary', border: 5}}>
                 <Grid container spacing={0.5}  
                     id={idNamePair._id}
                     key={idNamePair._id}
@@ -355,13 +373,13 @@ function ListCard(props) {
                         <Box><div id="list-name">{idNamePair.name}</div></Box>
                     </Grid>
                     <Grid item xs={2} sx={{fontSize: '20px', left: "5px"}}>
-                        <div  style={{background:"white"}}>{thumbsUp}{idNamePair.likes} </div>
+                        <div  style={{background:"lavender"}}>{thumbsUp}{idNamePair.likes} </div>
                     </Grid>
                     <Grid item xs={2} sx={{fontSize: '20px'}}>
-                        <div style={{background:"white"}}>{thumbsDown}{idNamePair.dislikes} </div>
+                        <div style={{background:"lavender"}}>{thumbsDown}{idNamePair.dislikes} </div>
                     </Grid> 
                     <Grid item xs={2}>
-                        <div style={{background:"white"}}>
+                        <div style={{background:"lavender"}}>
                             <DeleteOutlinedIcon id = "list-card-element" onClick={(event) => {
                                 handleDeleteList(event, idNamePair._id)
                             }}></DeleteOutlinedIcon> 
@@ -383,22 +401,81 @@ function ListCard(props) {
                         <div id="author" style={{color:"blue", }}> {idNamePair.username} </div>
                     </Grid>
                    
-                    <Grid item xs={8} onClick={(event) => {
-                        handleLoadList(event, idNamePair._id)
-                    }}>
-                        <div id = "list-card-element" style={{color:"red"}}> Edit </div>
+                    <Grid item xs={8}>
+                        <div id = "list-card-element" style={{color:"green"}}> Published </div>
                     </Grid>
                     <Grid item xs={2}>
                         <div> Views: {idNamePair.views} </div>
                     </Grid>
                     <Grid item xs={2} >
-                    <div style={{background:"white"}}>
+                    <div style={{background:"lavender"}}>
                              <KeyboardArrowDownIcon id = "list-card-element" onClick = {(event)=>{handleToggleExpansion(event, idNamePair._id)}}></KeyboardArrowDownIcon> 
                              </div>
                     </Grid>
                 </Grid>
             </Box>
         </div>
+    }
+    else{
+        cardElement =
+            <div id = "list-card-nonediting">
+                <Box sx={{borderRadius: 4, bgcolor: bgc, borderColor: 'text.primary', border: 5}}>
+                    <Grid container spacing={0.5}  
+                        id={idNamePair._id}
+                        key={idNamePair._id}
+                        sx={{ marginTop: '0px', display: 'flex', p: 0 }}
+                        style={{ width: '100%' }}
+                        button
+                        >
+                        <Grid item xs={6} sx={{fontSize: '20px'}}>
+                            <Box><div id="list-name">{idNamePair.name}</div></Box>
+                        </Grid>
+                        <Grid item xs={2} sx={{fontSize: '20px', left: "5px"}}>
+                            <div  style={{background:"white"}}>{thumbsUp}0 </div>
+                        </Grid>
+                        <Grid item xs={2} sx={{fontSize: '20px'}}>
+                            <div style={{background:"white"}}>{thumbsDown}0 </div>
+                        </Grid> 
+                        <Grid item xs={2}>
+                            <div style={{background:"white"}}>
+                                <DeleteOutlinedIcon id = "list-card-element" onClick={(event) => {
+                                    handleDeleteList(event, idNamePair._id)
+                                }}></DeleteOutlinedIcon> 
+                            </div>
+                        </Grid>
+                        <Grid item xs = {6}>
+                            {injectExpansion} 
+                        </Grid>
+                        <Grid item xs = {6} >
+                            <div >
+                                {comments}  
+                            </div>
+                        </Grid>
+                                     
+                        <Grid item xs={0}>
+                            <div > By: </div>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <div id="author" style={{color:"blue", }}> {idNamePair.username} </div>
+                        </Grid>
+                       
+                        <Grid item xs={8} onClick={(event) => {
+                            handleLoadList(event, idNamePair._id)
+                        }}>
+                            <div id = "list-card-element" style={{color:"red"}}> Edit </div>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <div>  </div>
+                        </Grid>
+                        <Grid item xs={2} >
+                        <div style={{background:"white"}}>
+                                 <KeyboardArrowDownIcon id = "list-card-element" onClick = {(event)=>{handleToggleExpansion(event, idNamePair._id)}}></KeyboardArrowDownIcon> 
+                                 </div>
+                        </Grid>
+                    </Grid>
+                </Box>
+            </div>
+        }
                 // <ListItem
                 //     id={idNamePair._id}
                 //     key={idNamePair._id}
