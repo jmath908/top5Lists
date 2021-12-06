@@ -131,6 +131,9 @@ getTop5ListPairs = async (req, res) => {
                             likes: list.likes,
                             dislikes: list.dislikes,
                             views: list.views,
+                            clist: list.items,
+                            comments: list.comments,
+                            published: list.published
                         };
                         pairs.push(pair);
                     }

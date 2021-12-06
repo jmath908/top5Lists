@@ -249,7 +249,13 @@ body {
   overflow: scroll;
   background-color: #959599;
 }
-
+#list-comments-list{
+  position: absolute;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+}
 .list-card,
 .selected-list-card,
 .unselected-list-card {

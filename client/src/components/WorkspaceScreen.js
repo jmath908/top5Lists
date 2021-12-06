@@ -42,7 +42,16 @@ function WorkspaceScreen() {
 
     }
     function handlePublish(){
+        //do check:
+        // no duplicate
+        // no blanks
+        if(checkPublishable()){
+            
+        }
         
+    }
+    function checkPublishable(list){
+
     }
     const commonStyles = {
         bgcolor: 'background.paper',

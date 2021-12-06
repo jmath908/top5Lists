@@ -40,7 +40,6 @@ const HomeScreen = () => {
                 
                 store.idNamePairs.map((pair) => (
                     <ListCard
-                        
                         key={pair._id}
                         idNamePair={pair}
                         selected={false}

@@ -5,6 +5,7 @@ import EditToolbar from './EditToolbar'
 import HomeScreen from './HomeScreen'
 import HomeWrapper from './HomeWrapper'
 import ListCard from './ListCard'
+import ListComment from './ListComment'
 import LoginScreen from './LoginScreen'
 import RegisterScreen from './RegisterScreen'
 import SplashScreen from './SplashScreen'
@@ -25,6 +26,7 @@ export {
     HomeScreen,
     HomeWrapper,
     ListCard, 
+    ListComment,
     LoginScreen,
     RegisterScreen,
     SplashScreen,

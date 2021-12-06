@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react'
 import { GlobalStoreContext } from '../store'
 import Top5Item from './Top5Item.js'
+import ListComment from './ListComment'
 import Box from '@mui/material/Box';
 import { styled, alpha } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
@@ -8,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import ThumbDownOutlinedIcon from '@mui/icons-material/ThumbDownOutlined';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import { Typography } from '@mui/material';
+import { Typography, List } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import * as React from 'react';
 
@@ -28,6 +29,7 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 */
 function ListCard(props) {
     const { store } = useContext(GlobalStoreContext);
+    
     const [editActive, setEditActive] = useState(false);
     const [expanded, setExpanded] = useState(false);
     const [likeOrDislike, setLikeOrDislike] = useState(null);
@@ -90,9 +92,7 @@ function ListCard(props) {
             let _id = event.target.id;
             if (_id.indexOf('list-card-text-') >= 0)
                 _id = ("" + _id).substring("list-card-text-".length);
-
             console.log("load " + event.target.id);
-
             // CHANGE THE CURRENT LIST
             store.setCurrentList(id);
         }
@@ -183,11 +183,9 @@ function ListCard(props) {
             thumbsDown = <ThumbDownIcon id = "list-card-element" onClick = {(event)=>{handleListDislike(event, idNamePair._id)}}/>;
         }
     }
-    let editItems = "";
-    if (store.currentList) {
-        editItems = store.currentList.items;
-        console.log(editItems);
-    }
+
+    let editItems=idNamePair.clist;
+
     function handleKeyPress(event) {
         if (event.code === "Enter") {
             let id = event.target.id.substring("list-".length);
@@ -201,13 +199,14 @@ function ListCard(props) {
 
     function handleToggleExpansion(event, id) {
         event.stopPropagation();
-        toggleExpansion(id);
+        toggleExpansion(event,id);
     }
 
-    async function toggleExpansion(id) {
+    async function toggleExpansion(event,id) {
         let newExpansion = !expanded;
         if (newExpansion) {
             store.listView(id);
+            editItems=idNamePair.clist;
         }
         setExpanded(newExpansion);
     }
@@ -217,27 +216,18 @@ function ListCard(props) {
         m: 1,
         border: 1,
       };
-
+      const commonStyles2 = {
+        bgcolor: 'gold',
+        borderColor: 'text.primary',
+        m: 1,
+        border: 1,
+      };
     //for thumbsup/thumbsdown icon
     // if user clicks like, it will change to darkened thumb
     // if user clicks dislike, it will undo the like
     // if user does not want to vote, they can return the thumb to neutral
     // user should have knowledge of what lists they have liked
-    function handleToggleLikeDislike(event, id) {
-        // if "dislike" is passed
-        // check if
-        event.stopPropagation();
-        toggleExpansion(id);
-    }
-
-    async function toggleLikeDislike(id) {
-        let newExpansion = !expanded;
-        if (newExpansion) {
-            store.listView(id);
-        }
-        setExpanded(newExpansion);
-    }
-      
+   
     let selectClass = "unselected-list-card";
     if (selected) {
         selectClass = "selected-list-card";
@@ -246,6 +236,29 @@ function ListCard(props) {
     if (store.isListNameEditActive) {
         cardStatus = true;
     }
+    let comments = "";
+    if(expanded){
+
+    comments = 
+        <Grid item xs={12}>
+            <Box>
+                <List sx={{ width: '100%', left: '0%' }}>
+                {
+                    
+                    idNamePair.comments.map((comment) => (
+                        <ListComment
+                            comment={comment}
+                            author={idNamePair.username}
+                        />
+                        
+                    ))
+                    
+                }
+                </List>
+            </Box>
+        </Grid>
+    }
+
     let injectExpansion;
     if(expanded){
         injectExpansion =             
@@ -290,7 +303,7 @@ function ListCard(props) {
                 </Grid>
                 <Grid item xs={11}>
                     <Box sx={{color: "gold" }}>
-                    <Typography variant="h3">{editItems[3]}</Typography>
+                    <Typography >{editItems[3]}</Typography>
                     </Box>
                 </Grid>
                 <Grid item xs={1}>
@@ -307,11 +320,15 @@ function ListCard(props) {
         </Box>
         </Grid>
         </Grid>
+
     }
     else{
+        
         injectExpansion = <div></div>
     }
-
+    
+    
+    
     let cardElement =
         <div id = "list-card-nonediting">
             <Box sx={{borderRadius: 4, bgcolor: "white", borderColor: 'text.primary', border: 5}}>
@@ -333,12 +350,20 @@ function ListCard(props) {
                     </Grid> 
                     <Grid item xs={2}>
                         <div style={{background:"white"}}>
-                             <DeleteOutlinedIcon id = "list-card-element" onClick={(event) => {
+                            <DeleteOutlinedIcon id = "list-card-element" onClick={(event) => {
                                 handleDeleteList(event, idNamePair._id)
                             }}></DeleteOutlinedIcon> 
-                             </div>
+                        </div>
                     </Grid>
-                    {injectExpansion}                    
+                    <Grid item xs = {6}>
+                        {injectExpansion} 
+                    </Grid>
+                    <Grid item xs = {6} >
+                        <div id="list-comments-list">
+                            {comments}  
+                        </div>
+                    </Grid>
+                                 
                     <Grid item xs={0}>
                         <div > By: </div>
                     </Grid>

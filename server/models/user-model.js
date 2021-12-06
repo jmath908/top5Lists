@@ -9,7 +9,8 @@ const UserSchema = new Schema(
         email: { type: String, required: true },
         username: {type: String, required: true},
         passwordHash: { type: String, required: true },
-        top5Lists: [{type: ObjectId, ref: 'Top5List'}]
+        top5Lists: [{type: ObjectId, ref: 'Top5List'}],
+        listsLiked: {type: String},
     },
     { timestamps: true },
 )
