@@ -186,12 +186,13 @@ updateTop5List = async (req, res) => {
                 if (user._id == req.userId) {
                     console.log("correct user!");
                     console.log("req.body.name, req.body.items: " + req.body.name + ", " + req.body.items);
-
+                    console.log("comments: ", body.top5List.comments);
                     list.name = body.top5List.name;
                     list.items = body.top5List.items;
                     list.likes = body.top5List.likes;
                     list.dislikes = body.top5List.dislikes;
                     list.views = body.top5List.views;
+                    list.comments = body.top5List.comments;
                     list
                         .save()
                         .then(() => {

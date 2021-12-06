@@ -238,27 +238,39 @@ function ListCard(props) {
     }
     let comments = "";
     if(expanded){
-
+    
     comments = 
-        <Grid item xs={12}>
-            <Box>
-                <List sx={{ width: '100%', left: '0%' }}>
-                {
-                    
-                    idNamePair.comments.map((comment) => (
-                        <ListComment
-                            comment={comment}
-                            author={idNamePair.username}
-                        />
-                        
-                    ))
-                    
-                }
-                </List>
-            </Box>
-        </Grid>
-    }
+    <div>
+            <Grid item xs={12}>
+                    <Box>
+                        <List sx={{ width: '90%', left: '0%' }}>
+                        {
+                            idNamePair.comments.map((item) => (
+                                <ListComment
+                                    username={item.username}
+                                    comment={item.comment}
+                                />
+                            ))
+                        }
+                        </List>
+                    </Box>
+                </Grid>
+        
 
+        {<TextField variant="outlined" label=" Add comment"  sx={{paddingLeft:0}} onKeyPress= {(event) => {
+                    if (event.key === 'Enter') {
+                    console.log('Enter key pressed: ', event.target.value);
+                    store.addComment( idNamePair._id, event.target.value,  idNamePair.username);
+                    }
+                    }}
+        />}
+        </div>
+            
+    }
+    let bgc = "white";
+    if(idNamePair.published == true){
+        bgc = "lavendar";
+    }
     let injectExpansion;
     if(expanded){
         injectExpansion =             
@@ -331,7 +343,7 @@ function ListCard(props) {
     
     let cardElement =
         <div id = "list-card-nonediting">
-            <Box sx={{borderRadius: 4, bgcolor: "white", borderColor: 'text.primary', border: 5}}>
+            <Box sx={{borderRadius: 4, bgcolor: bgc, borderColor: 'text.primary', border: 5}}>
                 <Grid container spacing={0.5}  
                     id={idNamePair._id}
                     key={idNamePair._id}
@@ -359,7 +371,7 @@ function ListCard(props) {
                         {injectExpansion} 
                     </Grid>
                     <Grid item xs = {6} >
-                        <div id="list-comments-list">
+                        <div >
                             {comments}  
                         </div>
                     </Grid>

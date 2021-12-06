@@ -32,7 +32,7 @@ export const createTop5List = (newListName, newItems, userEmail, username) => {
         likes: 0,
         dislikes: 0,
         views: 1,
-        comments: [],
+        comments: [[]],
         published: false
     })
 }

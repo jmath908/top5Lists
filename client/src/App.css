@@ -169,6 +169,14 @@ body {
   height: 100%;
   background-color: #959599;
 }
+#comments-list-selector {
+  position: relative;
+  left: 0%;
+  background-color: #959599;
+}
+#comment-username{
+  color: blue;
+}
 #add-button{
   position: absolute;
   left: 0%;
@@ -255,6 +263,10 @@ body {
   display: flex;
   flex-direction: column;
   overflow: scroll;
+}
+#add-comment-field{
+  position: absolute;
+  display: flex;
 }
 .list-card,
 .selected-list-card,

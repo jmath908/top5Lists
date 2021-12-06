@@ -20,9 +20,9 @@ import Icon from '@mui/material/Icon';
 function ListComment  (props)  {
     const { store } = useContext(GlobalStoreContext);
     const [editActive, setEditActive] = useState(false);
-    const { comment, author } = props;
+    const { username,comment } = props;
 
-
+    console.log(username);
     
     const commonStyles = {
         bgcolor: 'gold',
@@ -32,12 +32,13 @@ function ListComment  (props)  {
     const commonStyles2 = {
         bgcolor: 'gold',
         borderColor: 'text.primary',
-        m: 1,
+        p: 1,
         border: 1,
+        
     };
     let commentCard = 
             <Box sx={{ ...commonStyles2, borderRadius: 4 }} >
-                {author}
+                <div id = "comment-username">{username}: </div>
                 {comment}
             </Box>
     // let listCard = "";

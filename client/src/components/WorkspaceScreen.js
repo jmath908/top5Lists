@@ -16,29 +16,31 @@ import { styled } from '@mui/material/styles';
 */
 function WorkspaceScreen() {
     const { store } = useContext(GlobalStoreContext);
-    const Item = styled(Paper)(({ theme }) => ({
-        ...theme.typography.body2,
-        padding: theme.spacing(1),
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-      }));
-      
+    let list = store.currentList.items;
+    console.log(list);
+    if(list.length!==6){
+        list.unshift(store.currentList.name);
+    }
+    console.log(list);
     let editItems = "";
     if (store.currentList) {
-        editItems = 
-            // <List id="edit-items" sx={{ width: '100%', bgcolor: 'background.paper' }}>
-            //     {
-                    store.currentList.items.map((item, index) => (
+        editItems = store.currentList.items.map((item, index) => (
                         <Top5Item 
                             key={'top5-item-' + (index+1)}
                             text={item}
                             index={index} 
                         />
                     ))
-            //     }
-            // </List>;
+        console.log(store.currentList.items);
     }
+
     function handleSave(){
+        //now update the items
+        store.updateItems(list.splice(1))
+        store.changeListName(store.currentList._id, list[0]);
+        //now set list to published
+        store.currentList.published = false;
+        store.closeCurrentList();
 
     }
     function handlePublish(){
@@ -46,12 +48,41 @@ function WorkspaceScreen() {
         // no duplicate
         // no blanks
         if(checkPublishable()){
+            //update the list
+            //start with list-name: need listId and new name
+            console.log(list);
+            //now update the items
+            store.updateItems(list.splice(1));
+            store.changeListName(store.currentList._id, list[0]);
             
+            //now set list to published
+            store.listPublish(store.currentList._id);
+            console.log(store.currentList);
+            store.closeCurrentList();
         }
         
     }
-    function checkPublishable(list){
-
+    function checkPublishable(){
+        console.log(list);
+        if(list[0].length===0||list[0]===" "||!list[0][0].match(/^[a-z0-9]+$/i)){
+            return false;
+        }
+        if(list[1].length===0||list[1]===" "||!list[1][0].match(/^[a-z0-9]+$/i)){
+            return false;
+        }
+        if(list[2].length===0||list[2]===" "||!list[2][0].match(/^[a-z0-9]+$/i)){
+            return false;
+        }
+        if(list[3].length===0||list[3]===" "||!list[3][0].match(/^[a-z0-9]+$/i)){
+            return false;
+        }
+        if(list[4].length===0||list[4]===" "||!list[4][0].match(/^[a-z0-9]+$/i)){
+            return false;
+        }
+        if(list[5].length===0||list[5]===" "||!list[5][0].match(/^[a-z0-9]+$/i)){
+            return false;
+        }
+        return true;
     }
     const commonStyles = {
         bgcolor: 'background.paper',
@@ -78,7 +109,7 @@ function WorkspaceScreen() {
             <ListViewSelectorBar />
             <Box  sx={{ ...commonStyles, borderRadius: 4, bgcolor: "lavender",p:1,  flexGrow: 1}} >
                 
-                    <TextField id="outlined-basic" defaultValue={store.currentList.name} variant="outlined" sx={{paddingLeft:3}} />
+                    <TextField id="outlined-basic" defaultValue = {store.currentList.name} variant="outlined" sx={{paddingLeft:3}} onChange = {(event)=>{list[0]=event.target.value}} />
                     <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "navy", }} >
                         <Grid container spacing={2} sx={{p:2}}>
                             <Grid item xs={1}>
@@ -88,7 +119,7 @@ function WorkspaceScreen() {
                             </Grid>
                             <Grid item xs={11}>
                                 <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" }}>
-                                <TextField defaultValue={editItems[0]} fullWidth>{editItems[0]}</TextField>
+                                <TextField defaultValue = {store.currentList.items[1]} onChange = {(event)=>{list[1]=event.target.value; console.log(list)}} fullWidth>{store.currentList.items[0]}</TextField>
                                 </Box>
                             </Grid>
                             <Grid item xs={1}>
@@ -98,7 +129,7 @@ function WorkspaceScreen() {
                             </Grid>
                             <Grid item xs={11}>
                                 <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" }}>
-                                <TextField defaultValue={editItems[1]} fullWidth>{editItems[1]}</TextField>
+                                <TextField defaultValue = {store.currentList.items[2]} onChange = {(event)=>{list[2]=event.target.value; console.log(list)}} fullWidth>{store.currentList.items[1]}</TextField>
                                 </Box>
                             </Grid>
                             <Grid item xs={1}>
@@ -108,7 +139,7 @@ function WorkspaceScreen() {
                             </Grid>
                             <Grid item xs={11}>
                                 <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" }}>
-                                <TextField defaultValue={editItems[2]} fullWidth>{editItems[2]}</TextField>
+                                <TextField defaultValue = {store.currentList.items[3]} onChange = {(event)=>{list[3]=event.target.value; console.log(list)}} fullWidth>{store.currentList.items[2]}</TextField>
                                 </Box>
                             </Grid>
                             <Grid item xs={1}>
@@ -118,7 +149,7 @@ function WorkspaceScreen() {
                             </Grid>
                             <Grid item xs={11}>
                                 <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" }}>
-                                <TextField defaultValue={editItems[3]} fullWidth>{editItems[3]}</TextField>
+                                <TextField defaultValue = {store.currentList.items[4]}  onChange = {(event)=>{list[4]=event.target.value; console.log(list)}} fullWidth>{store.currentList.items[3]}</TextField>
                                 </Box>
                             </Grid>
                             <Grid item xs={1}>
@@ -128,7 +159,7 @@ function WorkspaceScreen() {
                             </Grid>
                             <Grid item xs={11}>
                                 <Box sx={{ ...commonStyles, borderRadius: 4, bgcolor: "gold" }}>
-                                <TextField defaultValue={editItems[4]} fullWidth></TextField>
+                                <TextField defaultValue = {store.currentList.items[5]} onChange = {(event)=>{list[5]=event.target.value; console.log(list)}} fullWidth></TextField>
                                 </Box>
                             </Grid>
                         </Grid>
