@@ -1,5 +1,7 @@
 // import AccountCircle from '@mui/icons-material/AccountCircle';
 // import AppBar from '@mui/material/AppBar';
+import { useContext } from 'react';
+
  import Box from '@mui/material/Box';
  import Grid from '@mui/material/Grid';
 // import IconButton from '@mui/material/IconButton';
@@ -17,6 +19,8 @@ import AuthContext from '../auth'
 
 
 export default function SplashScreen() {
+    const { auth } = useContext(AuthContext);
+
     return (
         <Box sx={{ width: '100%' }}       
         >
@@ -47,7 +51,7 @@ export default function SplashScreen() {
                         >
                             <Button variant="contained"><Link to='/login/'>Sign-in</Link></Button><br></br>
                             <Button variant="contained"><Link to='/register/'>Sign-up</Link></Button><br></br>
-                            <Button variant="contained">Guest mode</Button>
+                            <Button variant="contained" onClick = {()=>auth.getGuestIn()}><Link to='/guest'>Guest Mode</Link></Button>
                         </Box>
                     </div>
                     <br></br>                    

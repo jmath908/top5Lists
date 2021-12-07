@@ -38,23 +38,24 @@ export default function ListViewSelectorBar() {
 
     const handleSort1 = () => {
         handleMenuClose();
-        auth.logoutUser();
+        store.setCurrentOrder("new");
+        store.loadAllIdNamePairs("");
     }
     const handleSort2 = () => {
         handleMenuClose();
-        auth.logoutUser();
+        store.setCurrentOrder("old");
     }
     const handleSort3 = () => {
         handleMenuClose();
-        auth.logoutUser();
+        store.setCurrentOrder("views");
     }
     const handleSort4 = () => {
         handleMenuClose();
-        auth.logoutUser();
+        store.setCurrentOrder("likes");
     }
     const handleSort5 = () => {
         handleMenuClose();
-        auth.logoutUser();
+        store.setCurrentOrder("dislikes");
     }
     const menuId = 'primary-search-account-menu';
     const loggedOutMenu = (
@@ -93,11 +94,11 @@ export default function ListViewSelectorBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleSort1}>Publish Date (Newest)</MenuItem>
-            <MenuItem onClick={handleSort2}>Publish Date (Oldest)</MenuItem>
-            <MenuItem onClick={handleSort3}>Views</MenuItem>
-            <MenuItem onClick={handleSort4}>Likes</MenuItem>
-            <MenuItem onClick={handleSort5}>Dislikes</MenuItem>
+            <MenuItem onClick={()=>handleSort1()}>Publish Date (Newest)</MenuItem>
+            <MenuItem onClick={()=>handleSort2()}>Publish Date (Oldest)</MenuItem>
+            <MenuItem onClick={()=>handleSort3()}>Views</MenuItem>
+            <MenuItem onClick={()=>handleSort4()}>Likes</MenuItem>
+            <MenuItem onClick={()=>handleSort5()}>Dislikes</MenuItem>
         </Menu>        
 
     let editToolbar = "";
@@ -152,7 +153,8 @@ export default function ListViewSelectorBar() {
             </Box>
         );
     }
-
+    let view = store.currentView;
+    if(view==="all"){
     return (
         <Box sx={{ flexGrow: 1 }}>
             <Grid
@@ -166,11 +168,11 @@ export default function ListViewSelectorBar() {
             <AppBar position="static">
                     <div id = "list-selector-toolbar">
                     <Toolbar>
-                            <HomeOutlinedIcon id = "enabled-view-selector" fontSize = "large" onClick = {store.loadIdNamePairs}/>
-                            <PeopleOutlineIcon id = "enabled-view-selector" fontSize = "large" onClick = {store.loadAllIdNamePairs}/>
-                            <PersonOutlinedIcon id = "enabled-view-selector" fontSize = "large" onClick = {store.loadAllIdNamePairs}/>
-                            <FunctionsOutlinedIcon id = "enabled-view-selector" fontSize = "large" onClick = {store.loadAllIdNamePairs}/>
-                            <TextField  sx={{ m: 1, width: '50ch' }} label="Search" variant="filled" /*onChange = {}*//>
+                            <HomeOutlinedIcon id = "enabled-view-selector" fontSize = "large" onClick = {()=>store.loadIdNamePairs()}/>
+                            <PeopleOutlineIcon id = "enabled-view-selector" fontSize = "large" onClick = {()=>{store.loadAllIdNamePairs("all", "", "new"); store.setCurrentView("all")} }/>
+                            <PersonOutlinedIcon id = "enabled-view-selector" fontSize = "large" onClick = {()=>{store.loadAllIdNamePairs("user", "", "new") ; store.setCurrentView("user")}}/>
+                            <FunctionsOutlinedIcon id = "enabled-view-selector" fontSize = "large" onClick = {()=>{store.loadAllIdNamePairs("community", "", "new") ; store.setCurrentView("community")}}/>
+                            <TextField  sx={{ m: 1, width: '50ch' }} label="Search" variant="filled" onChange = {(event)=> {store.loadAllIdNamePairs("all", event.target.value, "new");}}/>
                             <div id = "list-selector-sortby">
                                 <Typography fontSize = "20px">Sort By</Typography>
                             </div>
@@ -189,4 +191,82 @@ export default function ListViewSelectorBar() {
             </Grid>
         </Box>
     );
+        }
+    if(view==="user"){
+            return (
+                <Box sx={{ flexGrow: 1 }}>
+                    <Grid
+                        // container
+                        // spacing={0}
+                        // direction="column"
+                        // alignItems="center"
+                        // justifyContent="center"
+                        // style={{ minHeight: '100vh' }}
+                    >
+                    <AppBar position="static">
+                            <div id = "list-selector-toolbar">
+                            <Toolbar>
+                                    <HomeOutlinedIcon id = "enabled-view-selector" fontSize = "large" onClick = {()=>store.loadIdNamePairs()}/>
+                                    <PeopleOutlineIcon id = "enabled-view-selector" fontSize = "large" onClick = {()=>{store.loadAllIdNamePairs("all", "", "new"); store.setCurrentView("all")} }/>
+                                    <PersonOutlinedIcon id = "enabled-view-selector" fontSize = "large" onClick = {()=>{store.loadAllIdNamePairs("user", "", "new") ; store.setCurrentView("user")}}/>
+                                    <FunctionsOutlinedIcon id = "enabled-view-selector" fontSize = "large" onClick = {()=>{store.loadAllIdNamePairs("community", "", "new") ; store.setCurrentView("community")}}/>
+                                    <TextField  sx={{ m: 1, width: '50ch' }} label="Search" variant="filled" onChange = {(event)=> {store.loadAllIdNamePairs("user", event.target.value, "new");}}/>
+                                    <div id = "list-selector-sortby">
+                                        <Typography fontSize = "20px">Sort By</Typography>
+                                    </div>
+                                    <SortIcon id = "enabled-view-selector" size="large"
+                                        edge="end"
+                                        aria-label="account of current user"
+                                        aria-controls={menuId}
+                                        aria-haspopup="true"
+                                        color="inherit" onClick = {handleSortMenuOpen} fontSize = "large"></SortIcon>
+                            </Toolbar>
+                            </div>
+                    </AppBar>
+                    {
+                        menu
+                    }
+                    </Grid>
+                </Box>
+            );
+                }
+    else{
+        return(
+            <Box sx={{ flexGrow: 1 }}>
+                <Grid
+                    // container
+                    // spacing={0}
+                    // direction="column"
+                    // alignItems="center"
+                    // justifyContent="center"
+                    // style={{ minHeight: '100vh' }}
+                >
+                <AppBar position="static">
+                        <div id = "list-selector-toolbar">
+                        <Toolbar>
+                                <HomeOutlinedIcon id = "enabled-view-selector" fontSize = "large" onClick = {()=>store.loadIdNamePairs()}/>
+                                <PeopleOutlineIcon id = "enabled-view-selector" fontSize = "large" onClick = {()=>{store.loadAllIdNamePairs("all", "", "new"); store.setCurrentView("all")} }/>
+                                <PersonOutlinedIcon id = "enabled-view-selector" fontSize = "large" onClick = {()=>{store.loadAllIdNamePairs("user", "", "new") ; store.setCurrentView("user")}}/>
+                                <FunctionsOutlinedIcon id = "enabled-view-selector" fontSize = "large" onClick = {()=>{store.loadAllIdNamePairs("community", "", "new") ; store.setCurrentView("community")}}/>
+                                <TextField  sx={{ m: 1, width: '50ch' }} label="Search" variant="filled" onChange = {(event)=> {store.loadAllIdNamePairs("user", event.target.value, "new");}}/>
+                                <div id = "list-selector-sortby">
+                                    <Typography fontSize = "20px">Sort By</Typography>
+                                </div>
+                                <SortIcon id = "enabled-view-selector" size="large"
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-controls={menuId}
+                                    aria-haspopup="true"
+                                    color="inherit" onClick = {handleSortMenuOpen} fontSize = "large"></SortIcon>
+                        </Toolbar>
+                        </div>
+                </AppBar>
+                {
+                    menu
+                }
+                </Grid>
+            </Box>
+        );
+            
+    }
 }

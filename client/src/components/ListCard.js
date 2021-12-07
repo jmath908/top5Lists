@@ -402,7 +402,7 @@ function ListCard(props) {
                     </Grid>
                    
                     <Grid item xs={8}>
-                        <div id = "list-card-element" style={{color:"green"}}> Published </div>
+                        <div id = "list-card-element" style={{color:"green"}}> Published on {idNamePair.publishedTime.substring(0,10)} </div>
                     </Grid>
                     <Grid item xs={2}>
                         <div> Views: {idNamePair.views} </div>

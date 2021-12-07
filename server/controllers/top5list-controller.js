@@ -133,7 +133,8 @@ getTop5ListPairs = async (req, res) => {
                             views: list.views,
                             clist: list.items,
                             comments: list.comments,
-                            published: list.published
+                            published: list.published,
+                            publishedTime: list.updatedAt,
                         };
                         pairs.push(pair);
                     }
@@ -169,9 +170,12 @@ getTop5Lists = async (req, res) => {
                     views: list.views,
                     clist: list.items,
                     comments: list.comments,
-                    published: list.published
+                    published: list.published,
+                    publishedTime: list.updatedAt,
                 };
-                pairs.push(pair);
+                if(pair.published === true){
+                    pairs.push(pair);
+                }
             }
             return res.status(200).json({ success: true, idNamePairs: pairs })
         }
@@ -215,6 +219,8 @@ updateTop5List = async (req, res) => {
                     list.views = body.top5List.views;
                     list.comments = body.top5List.comments;
                     list.published = body.top5List.published;
+                    list.publishedTime = body.top5List.updatedAt;
+
                     list
                         .save()
                         .then(() => {

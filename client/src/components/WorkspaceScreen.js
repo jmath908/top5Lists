@@ -34,20 +34,19 @@ function WorkspaceScreen() {
         console.log(store.currentList.items);
     }
 
-    async function handleSave(){
+    function handleSave(){
         //now update the items
             //now update the items
-        store.updateItems(list.splice(1));
+        handleUpdateItems();
         //store.changeListName(store.currentList._id, list[0]);
         handleChangeListName();
         //now set list to published
         console.log(store.currentList._id);
         console.log(store.currentList);
         store.closeCurrentList();
-
     }
-    async function handlePublish(){
-        //do check:
+    function handlePublish(){
+        // do check:
         // no duplicate
         // no blanks
         //store.listLike(store.currentList._id,1);
@@ -67,15 +66,15 @@ function WorkspaceScreen() {
         
     }
     async function handleUpdateItems(){
-        store.updateItems(list.splice(1));
+        await store.updateItems(list.splice(1));
 
     }
     async function handleChangeListName(){
-        store.changeListName(store.currentList._id, list[0]);
+        await store.changeListName(store.currentList._id, list[0]);
 
     }
     async function handleDBPublish (){
-        store.listPublish(store.currentList._id);
+        await store.listPublish(store.currentList._id);
 
     }
     function checkPublishable(){
