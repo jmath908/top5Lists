@@ -38,7 +38,8 @@ function WorkspaceScreen() {
         //now update the items
             //now update the items
         store.updateItems(list.splice(1));
-        store.changeListName(store.currentList._id, list[0]);
+        //store.changeListName(store.currentList._id, list[0]);
+        handleChangeListName();
         //now set list to published
         console.log(store.currentList._id);
         console.log(store.currentList);
@@ -55,8 +56,8 @@ function WorkspaceScreen() {
             //start with list-name: need listId and new name
             console.log(list);
             //now update the items
-            store.updateItems(list.splice(1));
-            store.changeListName(store.currentList._id, list[0]);
+            handleUpdateItems();
+            handleChangeListName();
             //now set list to published
             handleDBPublish();
             console.log(store.currentList._id);
@@ -64,6 +65,14 @@ function WorkspaceScreen() {
             store.closeCurrentList();
         }
         
+    }
+    async function handleUpdateItems(){
+        store.updateItems(list.splice(1));
+
+    }
+    async function handleChangeListName(){
+        store.changeListName(store.currentList._id, list[0]);
+
     }
     async function handleDBPublish (){
         store.listPublish(store.currentList._id);

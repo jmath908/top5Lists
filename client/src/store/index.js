@@ -276,6 +276,22 @@ function GlobalStoreContextProvider(props) {
         }
     }
 
+    store.loadAllIdNamePairs = async function (){
+        console.log("getting all lists");
+        const response = await api.getAllTop5ListPairs();
+        if (response.status === 200) {
+            let pairsArray = response.data.idNamePairs;
+            console.log(pairsArray);
+            storeReducer({
+                type: GlobalStoreActionType.LOAD_ID_NAME_PAIRS,
+                payload: pairsArray
+            });
+        }
+        else {
+            console.log("API FAILED TO GET THE LIST PAIRS");
+        }
+    }
+
     // THE FOLLOWING 5 FUNCTIONS ARE FOR COORDINATING THE DELETION
     // OF A LIST, WHICH INCLUDES USING A VERIFICATION MODAL. THE
     // FUNCTIONS ARE markListForDeletion, deleteList, deleteMarkedList,

@@ -36,12 +36,26 @@ export default function ListViewSelectorBar() {
         setAnchorEl(null);
     };
 
-    const handleLogout = () => {
+    const handleSort1 = () => {
         handleMenuClose();
         auth.logoutUser();
     }
-
-      
+    const handleSort2 = () => {
+        handleMenuClose();
+        auth.logoutUser();
+    }
+    const handleSort3 = () => {
+        handleMenuClose();
+        auth.logoutUser();
+    }
+    const handleSort4 = () => {
+        handleMenuClose();
+        auth.logoutUser();
+    }
+    const handleSort5 = () => {
+        handleMenuClose();
+        auth.logoutUser();
+    }
     const menuId = 'primary-search-account-menu';
     const loggedOutMenu = (
         <Menu
@@ -79,7 +93,11 @@ export default function ListViewSelectorBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            <MenuItem onClick={handleSort1}>Publish Date (Newest)</MenuItem>
+            <MenuItem onClick={handleSort2}>Publish Date (Oldest)</MenuItem>
+            <MenuItem onClick={handleSort3}>Views</MenuItem>
+            <MenuItem onClick={handleSort4}>Likes</MenuItem>
+            <MenuItem onClick={handleSort5}>Dislikes</MenuItem>
         </Menu>        
 
     let editToolbar = "";
@@ -148,15 +166,20 @@ export default function ListViewSelectorBar() {
             <AppBar position="static">
                     <div id = "list-selector-toolbar">
                     <Toolbar>
-                            <HomeOutlinedIcon id = "enabled-view-selector" fontSize = "large"/>
-                            <PeopleOutlineIcon id = "enabled-view-selector" fontSize = "large"/>
-                            <PersonOutlinedIcon id = "enabled-view-selector" fontSize = "large"/>
-                            <FunctionsOutlinedIcon id = "enabled-view-selector" fontSize = "large"/>
-                            <TextField  sx={{ m: 1, width: '50ch' }} label="Search" variant="filled"/>
+                            <HomeOutlinedIcon id = "enabled-view-selector" fontSize = "large" onClick = {store.loadIdNamePairs}/>
+                            <PeopleOutlineIcon id = "enabled-view-selector" fontSize = "large" onClick = {store.loadAllIdNamePairs}/>
+                            <PersonOutlinedIcon id = "enabled-view-selector" fontSize = "large" onClick = {store.loadAllIdNamePairs}/>
+                            <FunctionsOutlinedIcon id = "enabled-view-selector" fontSize = "large" onClick = {store.loadAllIdNamePairs}/>
+                            <TextField  sx={{ m: 1, width: '50ch' }} label="Search" variant="filled" /*onChange = {}*//>
                             <div id = "list-selector-sortby">
                                 <Typography fontSize = "20px">Sort By</Typography>
                             </div>
-                            <SortIcon id = "enabled-view-selector" onClick = {()=>handleSortMenuOpen} fontSize = "large"></SortIcon>
+                            <SortIcon id = "enabled-view-selector" size="large"
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={menuId}
+                                aria-haspopup="true"
+                                color="inherit" onClick = {handleSortMenuOpen} fontSize = "large"></SortIcon>
                     </Toolbar>
                     </div>
             </AppBar>
